@@ -346,7 +346,7 @@ class $controler extends CI_Controller {
         $model_str="
 <?php
 
-class Abastecimento_Unidade_Armazenamento_Model extends CI_Model
+class $model extends CI_Model
 {
   public function __construct(){
       parent::__construct();
@@ -408,7 +408,7 @@ class Abastecimento_Unidade_Armazenamento_Model extends CI_Model
 
           \$dados_log = array(
               'id_registro' => \$id,
-              'tabela' => 'abastecimento_unidade_armazenamento',
+              'tabela' => '$table',
               'acao' => 1,
               'sql' => str_replace(\"`\", \"\", \$this->db->last_query()),
               'data_cadastro' => date('Y-m-d H:i:s', time()),
@@ -436,7 +436,7 @@ class Abastecimento_Unidade_Armazenamento_Model extends CI_Model
               //Log
               \$dados_log = [
                   'id_registro'   => \$id,
-                  'tabela'        => 'abastecimento_unidade_armazenamento',
+                  'tabela'        => '$table',
                   'acao'          => 2,
                   'sql'           => str_replace(\"`\", \"\", \$this->db->last_query()),
                   'data_cadastro' => date('Y-m-d H:i:s', time()),
