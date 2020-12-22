@@ -351,8 +351,9 @@ class $model extends CI_Model
   public function __construct(){
       parent::__construct();
   }
-  public function get()
-  {
+  public function get(\$id = null)
+        {
+        if(\$id != null)\$id = \"WHERE movimentacao_combustivel.id = \$id\";
         \$query = \$this->db->query(\"";
       function loop($database,$table,&$join,&$select)
       {
@@ -392,7 +393,7 @@ class $model extends CI_Model
       loop($database,$table,$join,$select);
       if($select==",\n")$select='';
       $select=substr($select, 0, -2)."\n";
-      $model_str.= "SELECT\n                $table.*{$select}                FROM $table\n$join";
+      $model_str.= "SELECT\n                $table.*{$select}                FROM $table\n$join\n                \$id";
 
       $model_str.="
       \");
