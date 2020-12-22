@@ -298,7 +298,7 @@ class $controler extends CI_Controller {
            else if($ii=='created_at') continue;
            else if($ii=='updated_by') continue;
            else if($ii=='updated_at') continue;
-          $controler_str.= '        '.ident("'$ii' ",70)."=> \$dados->$ii,\n";
+          $controler_str.= '           '.ident("'$ii' ",70)."=> \$dados->$ii,\n";
         }
         $controler_str.= '        ];';
         $controler_str.=
@@ -374,10 +374,10 @@ class $model extends CI_Model
             foreach ($fields as $j) {
               $jj=$j['Field'];
               if($i['chave']==$jj)continue;
-              $select.='        '.ident("$fk_name.$jj",70)." AS {$jj}_$fk_name,\n";
+              $select.='                '.ident("$fk_name.$jj",70)." AS {$jj}_$fk_name,\n";
             }
 
-            $join.="        LEFT JOIN $ct";
+            $join.="           LEFT JOIN $ct";
             if($ct != $fk_name)$join.=" AS $fk_name";
             $join.=" ON $table.$i[coluna] = $fk_name.$i[chave]\n";
         }
@@ -392,7 +392,7 @@ class $model extends CI_Model
       loop($database,$table,$join,$select);
       if($select==",\n")$select='';
       $select=substr($select, 0, -2)."\n";
-      $model_str.= "SELECT\n        $table.*{$select}        FROM $table\n$join";
+      $model_str.= "SELECT\n           $table.*{$select}        FROM $table\n$join";
 
       $model_str.="
       \");
