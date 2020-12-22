@@ -353,7 +353,7 @@ class $model extends CI_Model
   }
   public function get(\$id = null)
         {
-        if(\$id != null)\$id = \"WHERE movimentacao_combustivel.id = \$id\";
+        if(\$id != null)\$id = \"WHERE $table.id = \$id\";
         \$query = \$this->db->query(\"";
       function loop($database,$table,&$join,&$select)
       {
