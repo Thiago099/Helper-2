@@ -392,7 +392,7 @@ class $model extends CI_Model
       loop($database,$table,$join,$select);
       if($select==",\n")$select='';
       $select=substr($select, 0, -2)."\n";
-      $model_str.= "SELECT\n           $table.*{$select}                FROM $table\n$join";
+      $model_str.= "SELECT\n                $table.*{$select}                FROM $table\n$join";
 
       $model_str.="
       \");
