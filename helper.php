@@ -377,7 +377,7 @@ class $model extends CI_Model
               $select.='                '.ident("$fk_name.$jj",70)." AS {$jj}_$fk_name,\n";
             }
 
-            $join.="           LEFT JOIN $ct";
+            $join.="                LEFT JOIN $ct";
             if($ct != $fk_name)$join.=" AS $fk_name";
             $join.=" ON $table.$i[coluna] = $fk_name.$i[chave]\n";
         }
@@ -392,7 +392,7 @@ class $model extends CI_Model
       loop($database,$table,$join,$select);
       if($select==",\n")$select='';
       $select=substr($select, 0, -2)."\n";
-      $model_str.= "SELECT\n           $table.*{$select}        FROM $table\n$join";
+      $model_str.= "SELECT\n           $table.*{$select}                FROM $table\n$join";
 
       $model_str.="
       \");
