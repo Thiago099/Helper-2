@@ -106,7 +106,7 @@
         ?>
         </form>
         <?php
-        if($_GET['action']=='Generate Files'):
+        if(isset($_GET['action'])&&$_GET['action']=='Generate Files'):
         $database= $_GET['database'];
         $table=$_GET['table'];
         $model = camel(explode('_',$table)).'_Model';
