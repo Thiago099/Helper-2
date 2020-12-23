@@ -41,27 +41,46 @@
        }
      ?>
     <style media="screen">
-    input,select,textarea,div.alert{
-      padding: 10px;
-      margin: 10px;
-      border-radius: 5px;
-      width: 100%;
+    *{
+      background-color: #171717;
+      color: white;
+    }
+    /*Spacing*/
+      input,select,textarea,div.error, select option{
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+        width: 100%;
+
       }
-      div.alert
+      /*Color*/
+      input,select,textarea, select option{
+        background: #292929;
+        outline: none;
+        border:1px solid white;
+      }
+      input:active{
+        background-color: #181818;
+      }
+
+      select{
+        border-color: white;
+
+      }
+      div.error
       {
         color:red;
         font-size: 1.1em;
       }
       textarea{
-      width: 98%;
-
+        width: 98%;
       }
       input,select{
         font-size: 1.3em;
       }
       div.container{
-      margin: auto;
-      max-width: 1000px;
+        margin: auto;
+        max-width: 1000px;
       }
     </style>
   </head>
@@ -93,9 +112,9 @@
         <?php endforeach;?>
         </select>
       <?php endif; ?>
-      <input type="submit" name="action" value="Submit">
+      <input type="submit" name="action" value="Selecionar">
       <?php if(isset($_GET['table'])): ?>
-        <input type="submit" name="action" value="Generate Files">
+        <input type="submit" name="action" value="Gerar arquivos">
       <?php endif ?>
       <?php
         function camel($data)
@@ -111,7 +130,7 @@
         ?>
         </form>
         <?php
-        if(isset($_GET['action'])&&$_GET['action']=='Generate Files'):
+        if(isset($_GET['action'])&&$_GET['action']=='Gerar arquivos'):
         $database= $_GET['database'];
         $table=$_GET['table'];
         $model = camel(explode('_',$table)).'_Model';
@@ -121,7 +140,7 @@
         $p_controler = "application/controllers/$controler.php";
         if(file_exists($p_model)||file_exists($p_controler)):
           ?>
-          <div class="alert">Falha: Arquivo já existente.</div>
+          <div class="error">Falha: Arquivo já existente.</div>
           <textarea name="name" rows="8" cols="80"><?php
           echo "Possíveis rotas:\n";
           echo "public/$controler/get\n";
