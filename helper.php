@@ -219,6 +219,14 @@
           echo "$p_controler\n";
           ?>
           </textarea>
+          <label>Possível verifica token</label>
+          <textarea name="name" rows="8" cols="80"><?php
+          echo "'$controler' => array
+(
+  'get' => 0,
+  'salvar' => 0,
+),";
+          ?></textarea>
           <?php
         else:
 
