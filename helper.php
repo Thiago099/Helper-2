@@ -84,27 +84,33 @@
         display: inline;
 
       }
+      div.button_container{
+        margin: auto;
+        max-width: 1075px;
+
+      }
       div.button{
-        display: block;
-        margin-left:3.5%;
+        margin-left: 40px;
       }
       input.solo{
         width: 100%;
         margin: 10px;
       }
-      @media only screen and (max-width: 800px) {
+      @media (max-width:800px) {
+
         input{
           width: 100%;
           margin: 10px;
+        }
+        div.button{
+          margin-left: 0px;
         }
       }
       input:active{
         background-color: #181818;
       }
-
       select{
         border-color: white;
-
       }
       div.error
       {
@@ -121,6 +127,7 @@
         margin: auto;
         max-width: 1000px;
       }
+
     </style>
   </head>
   <body>
@@ -155,15 +162,18 @@
       <?php endif; ?>
       <label>Opções</label>
       <?php if(isset($_GET['table'])&& exists($_GET['database'],$_GET['table'])): ?>
-        <div class="button">
+      </div>
+        <div class="button_container">
+          <div class="button">
           <input type="submit" value="Selecionar">
           <input type="submit" name="action" value="Gerar modelo e controlador">
           <input type="submit" name="action" value="Adicionar campos de controle">
           <input type="submit" name="action" value="Código insert">
           <input type="submit" name="action" value="Código controlador">
           <input type="submit" name="action" value="Código select">
+          </div>
         </div>
-
+      <div class="container">
       <?php else: ?>
 
       <input class="solo" type="submit" value="Selecionar">
