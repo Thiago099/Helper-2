@@ -117,7 +117,7 @@
         <?php endforeach;?>
         </select>
       <?php endif; ?>
-      <input type="submit" name="action" value="Selecionar">
+      <input type="submit" value="Selecionar">
       <?php if(isset($_GET['table'])): ?>
         <input type="submit" name="action" value="Gerar arquivos">
         <input type="submit" name="action" value="Adicionar campos de controle">
