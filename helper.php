@@ -58,12 +58,19 @@
       color: white;
     }
     /*Spacing*/
-      input,select,textarea,div.error, select option{
+      input,select,textarea,div.error, select option,label{
         padding: 10px;
         margin: 10px;
         border-radius: 5px;
         width: 100%;
 
+      }
+      label{
+
+        font-size: 1.5em;
+      }
+      label::after {
+        content: " : ";
       }
       /*Color*/
       input,select,textarea, select option{
@@ -100,6 +107,7 @@
 <div class="container">
 
     <form class="" action="" method="get">
+      <label>Banco</label>
       <select class="" name="database">
         <?php
           $db=new sql();
@@ -115,6 +123,7 @@
         $db=new sql($_GET['database']);
         $r=$db->query("SHOW TABLES");
         ?>
+        <label>Tabela</label>
         <select class="" name="table">
         <?php
         foreach ($r as $i):
@@ -177,6 +186,7 @@
         elseif(file_exists($p_model)||file_exists($p_controler)):
           ?>
           <div class="error">Falha: Arquivo já existente.</div>
+          <label>Saida</label>
           <textarea name="name" rows="8" cols="80"><?php
           echo "Possíveis rotas:\n";
           echo "public/$controler/get\n";
@@ -434,6 +444,7 @@ class $model extends CI_Model
     fwrite_long($f_model, $model_str);
     fclose($f_model);
     ?>
+    <label>Saida</label>
     <textarea name="name" rows="8" cols="80"><?php
     echo "Rotas:\n";
     echo "public/$controler/get\n";
@@ -443,13 +454,23 @@ class $model extends CI_Model
     echo "$p_controler\n";
     ?>
     </textarea>
+    <label>Verifica token</label>
+    <textarea name="name" rows="8" cols="80"><?php
+    echo "'$controler' => array
+(
+  'get' => 0,
+  'salvar' => 0,
+),";
+    ?></textarea>
     <?php
     endif;
     endif;
         ?>
+
         <?php
         if(isset($_GET['table']) && exists($_GET['database'],$_GET['table'])):
           ?>
+          <label>Json</label>
           <textarea name="name" rows="40" cols="200" spellcheck="false"><?php
             if(isset($_GET['database'])&&isset($_GET['table']))
             {
@@ -498,6 +519,7 @@ class $model extends CI_Model
             }
             ?>
           </textarea>
+          <label>Insert</label>
             <textarea name="name" rows="40" cols="200" spellcheck="false"><?php
               if(isset($_GET['database'])&&isset($_GET['table']))
               {
