@@ -87,7 +87,6 @@
       div.button_container{
         margin: auto;
         max-width: 1075px;
-
       }
       div.button{
         margin-left: 40px;
@@ -96,8 +95,11 @@
         width: 100%;
         margin: 10px;
       }
-      @media (max-width:800px) {
-
+      @media (max-width:1107px) {
+        div.button_container{
+          margin: auto;
+          max-width: 1000px;
+        }
         input{
           width: 100%;
           margin: 10px;
