@@ -41,11 +41,16 @@
        }
      ?>
     <style media="screen">
-    input,select,textarea{
+    input,select,textarea,div.alert{
       padding: 10px;
       margin: 10px;
       border-radius: 5px;
       width: 100%;
+      }
+      div.alert
+      {
+        color:red;
+        font-size: 1.1em;
       }
       textarea{
       width: 98%;
@@ -115,8 +120,8 @@
         $p_model = "application/models/$model.php";
         $p_controler = "application/controllers/$controler.php";
         if(file_exists($p_model)||file_exists($p_controler)):
-          echo"<script>alert('arquivo já existentet.')</script>";
           ?>
+          <div class="alert">Falha: Arquivo já existente.</div>
           <textarea name="name" rows="8" cols="80"><?php
           echo "Possíveis rotas:\n";
           echo "public/$controler/get\n";
