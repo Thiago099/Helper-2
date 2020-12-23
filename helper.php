@@ -182,7 +182,7 @@
 
         $p_model = "application/models/$model.php";
         $p_controler = "application/controllers/$controler.php";
-        if(!is_dir("application")):?><div class="error">Falha: Esta aplicação deve estar na pasta raiz de um sistema em code igniter.</div><?php
+        if(!is_dir("application")):?><div class="error">Falha: Para gerar os arquivos, esta aplicação deve estar na pasta raiz de um sistema em code igniter.</div><?php
         elseif(file_exists($p_model)||file_exists($p_controler)):
           ?>
           <div class="error">Falha: Arquivo já existente.</div>
