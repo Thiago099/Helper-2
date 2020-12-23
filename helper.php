@@ -44,6 +44,13 @@
            $str.=' ';
          return $str;
        }
+      function exists($database,$table)
+      {
+        $db=new sql();
+        return count($db->query("SELECT TABLE_NAME AS tabela FROM INFORMATION_SCHEMA.TABLES
+        WHERE TABLE_SCHEMA = '$database'
+        AND  TABLE_NAME = '$table'"))==1;
+      }
      ?>
     <style media="screen">
     *{
@@ -440,7 +447,7 @@ class $model extends CI_Model
     endif;
         ?>
         <?php
-        if(isset($_GET['table'])):
+        if(isset($_GET['table']) && exists($_GET['database'],$_GET['table'])):
           ?>
           <textarea name="name" rows="40" cols="200" spellcheck="false"><?php
             if(isset($_GET['database'])&&isset($_GET['table']))
