@@ -125,7 +125,7 @@
         </select>
       <?php endif; ?>
       <input type="submit" value="Selecionar">
-      <?php if(isset($_GET['table'])): ?>
+      <?php if(isset($_GET['table'])&& exists($_GET['database'],$_GET['table'])): ?>
         <input type="submit" name="action" value="Gerar arquivos">
         <input type="submit" name="action" value="Adicionar campos de controle">
       <?php endif ?>
