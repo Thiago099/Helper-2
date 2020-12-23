@@ -152,7 +152,7 @@
       <label>Opções</label>
       <?php if(isset($_GET['table'])&& exists($_GET['database'],$_GET['table'])): ?>
         <input type="submit" value="Selecionar">
-        <input type="submit" name="action" value="Gerar arquivos">
+        <input type="submit" name="action" value="Gerar modelo e controlador">
         <input type="submit" name="action" value="Adicionar campos de controle">
         <input type="submit" name="action" value="Código insert">
         <input type="submit" name="action" value="Código controlador">
@@ -197,7 +197,7 @@
         }
         ?>
         <?php
-        if(isset($_GET['action'])&&$_GET['action']=='Gerar arquivos'):
+        if(isset($_GET['action'])&&$_GET['action']=='Gerar modelo e controlador'):
         $database= $_GET['database'];
         $table=$_GET['table'];
         $model = camel(explode('_',$table)).'_Model';
