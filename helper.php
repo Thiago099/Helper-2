@@ -88,7 +88,12 @@
         width: 100%;
         margin: 10px;
       }
-
+      @media only screen and (max-width: 800px) {
+        input{
+          width: 100%;
+          margin: 10px;
+        }
+      }
       input:active{
         background-color: #181818;
       }
