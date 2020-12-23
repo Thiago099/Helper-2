@@ -470,7 +470,7 @@ class $model extends CI_Model
         <?php
         if(isset($_GET['table']) && exists($_GET['database'],$_GET['table'])):
           ?>
-          <label>Json</label>
+          <label>JSON</label>
           <textarea name="name" rows="40" cols="200" spellcheck="false"><?php
             if(isset($_GET['database'])&&isset($_GET['table']))
             {
