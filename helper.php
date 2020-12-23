@@ -86,7 +86,7 @@
       }
       div.button{
         display: block;
-        margin-left:4%;
+        margin-left:3.5%;
       }
       input.solo{
         width: 100%;
