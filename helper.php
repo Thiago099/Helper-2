@@ -116,6 +116,17 @@
         $p_controler = "application/controllers/$controler.php";
         if(file_exists($p_model)||file_exists($p_controler)):
           echo"<script>alert('arquivo já existentet.')</script>";
+          ?>
+          <textarea name="name" rows="8" cols="80"><?php
+          echo "Possíveis rotas:\n";
+          echo "public/$controler/get\n";
+          echo "public/$controler/salvar\n";
+          echo "\nArquivos encontrados:\n";
+          echo "$p_model\n";
+          echo "$p_controler\n";
+          ?>
+          </textarea>
+          <?php
         else:
 
         $controler_str=
