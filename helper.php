@@ -27,6 +27,11 @@
        }
        return $ret;
      }
+     function run($sql)
+     {
+       $ret=[];
+       $result = $this->conn->query($sql);
+     }
      function close()
      {
        $conn->close();
@@ -115,6 +120,7 @@
       <input type="submit" name="action" value="Selecionar">
       <?php if(isset($_GET['table'])): ?>
         <input type="submit" name="action" value="Gerar arquivos">
+        <input type="submit" name="action" value="Adicionar campos de controle">
       <?php endif ?>
       <?php
         function camel($data)
@@ -129,6 +135,23 @@
         }
         ?>
         </form>
+        <?php
+        if(isset($_GET['action'])&&$_GET['action']=='Adicionar campos de controle')
+        {
+
+          $database = $_GET['database'];
+          $table = $_GET['table'];
+          $db=new sql($database);
+          $result=$db->run("ALTER TABLE `$database`.`$table`
+  ADD COLUMN `created_by` INT NULL,
+  ADD COLUMN `created_at` DATETIME NULL,
+  ADD COLUMN `updated_by` INT NULL,
+  ADD COLUMN `updated_at` DATETIME NULL,
+  ADD COLUMN `excluido` TINYINT(1) NULL DEFAULT NULL,
+  ADD CONSTRAINT `FK_{$table}_created_by` FOREIGN KEY (`created_by`) REFERENCES `usuario` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+  ADD CONSTRAINT `FK_{$table}_updated_by` FOREIGN KEY (`updated_by`) REFERENCES `usuario` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;");
+        }
+        ?>
         <?php
         if(isset($_GET['action'])&&$_GET['action']=='Gerar arquivos'):
         $database= $_GET['database'];
@@ -460,21 +483,6 @@ class $model extends CI_Model
             }
             ?>
           </textarea>
-          <textarea name="name" rows="40" cols="200" spellcheck="false"><?php
-            if(isset($_GET['database'])&&isset($_GET['table']))
-            {
-              $database = $_GET['database'];
-              $table = $_GET['table'];
-              echo "ALTER TABLE `$database`.`$table`
-      ADD COLUMN `created_by` INT NULL,
-      ADD COLUMN `created_at` DATETIME NULL,
-      ADD COLUMN `updated_by` INT NULL,
-      ADD COLUMN `updated_at` DATETIME NULL,
-      ADD COLUMN `excluido` TINYINT(1) NULL DEFAULT NULL,
-      ADD CONSTRAINT `FK_{$table}_created_by` FOREIGN KEY (`created_by`) REFERENCES `usuario` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
-      ADD CONSTRAINT `FK_{$table}_updated_by` FOREIGN KEY (`updated_by`) REFERENCES `usuario` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;";
-            }
-            ?></textarea>
             <textarea name="name" rows="40" cols="200" spellcheck="false"><?php
               if(isset($_GET['database'])&&isset($_GET['table']))
               {
