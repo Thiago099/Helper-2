@@ -80,9 +80,13 @@
         border:1px solid white;
       }
       input{
-        width: 44%;
+        width: 47%;
         display: inline;
-        margin-left: 4%;
+
+      }
+      div.button{
+        display: block;
+        margin-left:4%;
       }
       input.solo{
         width: 100%;
@@ -151,12 +155,15 @@
       <?php endif; ?>
       <label>Opções</label>
       <?php if(isset($_GET['table'])&& exists($_GET['database'],$_GET['table'])): ?>
-        <input type="submit" value="Selecionar">
-        <input type="submit" name="action" value="Gerar modelo e controlador">
-        <input type="submit" name="action" value="Adicionar campos de controle">
-        <input type="submit" name="action" value="Código insert">
-        <input type="submit" name="action" value="Código controlador">
-        <input type="submit" name="action" value="Código select">
+        <div class="button">
+          <input type="submit" value="Selecionar">
+          <input type="submit" name="action" value="Gerar modelo e controlador">
+          <input type="submit" name="action" value="Adicionar campos de controle">
+          <input type="submit" name="action" value="Código insert">
+          <input type="submit" name="action" value="Código controlador">
+          <input type="submit" name="action" value="Código select">
+        </div>
+
       <?php else: ?>
 
       <input class="solo" type="submit" value="Selecionar">
