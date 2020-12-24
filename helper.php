@@ -260,51 +260,49 @@ header(\"Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorizati
 class $controler extends CI_Controller
 {
     public function __construct()
+    {
+      // Sobrecarga no costrutor
+      parent::__construct();
+      
+      // usado somente pra debugar
+      //\$this->load->helper('chrome_helper');
+
+      //Carrega os models necessários
+      \$this->load->model('$model','$table');
+    }
+    public function get()
+    {
+      \$query = \$this->{$table}->get();
+
+      \$retorno = array();
+      \$retorno['status'] = 'erro';
+
+      if (\$query) 
       {
-          // Sobrecarga no costrutor
-          parent::__construct();
-
-          // usado somente pra debugar
-          //\$this->load->helper('chrome_helper');
-
-          //Carrega os models necessários
-          \$this->load->model('$model','$table');
+        \$retorno['status'] = 'sucesso';
+        \$retorno['lista'] = \$query;
       }
-
-
-      public function get()
+      else
       {
-          \$query = \$this->{$table}->get();
-
-
-          \$retorno = array();
-          \$retorno['status'] = 'erro';
-
-          if (\$query) {
-              \$retorno['status'] = 'sucesso';
-              \$retorno['lista'] = \$query;
-          }else{
-              \$retorno['lista'] = [];
-          }
-
-          echo json_encode(\$retorno);
+        \$retorno['lista'] = [];
       }
-      public function salvar()
+        echo json_encode(\$retorno);
+    }
+    public function salvar()
       {
-          \$status_code = 200;
-          \$response = [
-              'status' => 'sucesso',
-              'lista'  => [],
-          ];
+        \$status_code = 200;
+        \$response = [
+          'status' => 'sucesso',
+          'lista'  => [],
+        ];
 
-          \$dados_insert = [];
-          \$dados = json_decode(\$this->input->post('data'));
-
+        \$dados_insert = [];
+        \$dados = json_decode(\$this->input->post('data'));
 
   ";
         $db=new sql($_GET['database']);
         $result=$db->query("DESC $_GET[table]");
-        $controler_str.= "        \$dados_insert['$_GET[table]'] = [\n";
+        $controler_str.= "      \$dados_insert['$_GET[table]'] = [\n";
         foreach ($result as $i)
         {
           $ii=$i['Field'];
@@ -319,42 +317,41 @@ class $controler extends CI_Controller
         $controler_str.=
          "
 
-         \$header = (object) \$this->input->request_headers();
-         \$user = (object) \$this->jwt->decode(isset(\$header->authorization) ? \$header->authorization : \$header->Authorization, CONSUMER_KEY);
-         \$dados_insert['id_usuario']=\$user->id_usuario;
+        \$header = (object) \$this->input->request_headers();
+        \$user = (object) \$this->jwt->decode(isset(\$header->authorization) ? \$header->authorization : \$header->Authorization, CONSUMER_KEY);
+        \$dados_insert['id_usuario']=\$user->id_usuario;
 
-         if ((int)\$dados->id == 0)
-         {
-           \$dados_insert['$table']['created_by'] = \$user->id_usuario;
-           \$dados_insert['$table']['created_at'] = date('Y-m-d H:i:s', time());
-           \$result = \$this->{$table}->salvar(\$dados_insert);
-         }
-         else
-         {
-           \$dados_insert['$table']['updated_by'] = \$user->id_usuario;
-           \$dados_insert['$table']['updated_at'] = date('Y-m-d H:i:s', time());
-           \$result = \$this->{$table}->atualizar(\$dados_insert, \$dados->id);
-         }
-
+        if ((int)\$dados->id == 0)
+        {
+          \$dados_insert['$table']['created_by'] = \$user->id_usuario;
+          \$dados_insert['$table']['created_at'] = date('Y-m-d H:i:s', time());
+          \$result = \$this->{$table}->salvar(\$dados_insert);
+        }
+        else
+        {
+          \$dados_insert['$table']['updated_by'] = \$user->id_usuario;
+          \$dados_insert['$table']['updated_at'] = date('Y-m-d H:i:s', time());
+          \$result = \$this->{$table}->atualizar(\$dados_insert, \$dados->id);
+        }
 
         if (\$result)
         {
-            \$response['lista']  = \$this->{$table}->get(\$result);
+          \$response['lista']  = \$this->{$table}->get(\$result);
         }
-         else
+        else
         {
-            \$response = [
-               'status' => 'erro',
-               'lista'  => [],
-           ];
+          \$response = [
+            'status' => 'erro',
+            'lista'  => [],
+          ];
         }
 
         return \$this->output
-            ->set_content_type('application/json')
-            ->set_status_header(\$status_code)
-            ->set_output(
-                json_encode(\$response)
-            );
+          ->set_content_type('application/json')
+          ->set_status_header(\$status_code)
+          ->set_output(
+            json_encode(\$response)
+          );
     }
 }
 ?>";
@@ -365,12 +362,12 @@ class $model extends CI_Model
 {
     public function __construct()
     {
-        parent::__construct();
+      parent::__construct();
     }
     public function get(\$id = null)
     {
-          if(\$id != null)\$id = \"WHERE $table.id = \$id\";
-          \$query = \$this->db->query(\"";
+      if(\$id != null)\$id = \"WHERE $table.id = \$id\";
+      \$query = \$this->db->query(\"";
         function loop($database,$table,&$join,&$select)
         {
           $info=new sql("information_schema");
@@ -393,10 +390,10 @@ class $model extends CI_Model
               foreach ($fields as $j) {
                 $jj=$j['Field'];
                 if($i['chave']==$jj)continue;
-                $select.='                '.ident("$fk_name.$jj",70)." AS {$jj}_$fk_name,\n";
+                $select.='        '.ident("$fk_name.$jj",70)." AS {$jj}_$fk_name,\n";
               }
 
-              $join.="                LEFT JOIN $ct";
+              $join.="        LEFT JOIN $ct";
               if($ct != $fk_name)$join.=" AS $fk_name";
               $join.=" ON $table.$i[coluna] = $fk_name.$i[chave]\n";
           }
@@ -411,69 +408,76 @@ class $model extends CI_Model
         loop($database,$table,$join,$select);
         if($select==",\n")$select='';
         $select=substr($select, 0, -2)."\n";
-        $model_str.= "SELECT\n                $table.*{$select}                FROM $table\n$join                \$id";
+        $model_str.= "SELECT\n        $table.*{$select}        FROM $table\n$join        \$id";
 
         $model_str.="
-          \");
-          return \$query->result_object();
+      \");
+      return \$query->result_object();
     }
     public function salvar(\$dados)
     {
-        \$this->db->trans_begin();
+      \$this->db->trans_begin();
 
-        if (\$this->db->insert('$table', \$dados['$table']))
+      if (\$this->db->insert('$table', \$dados['$table']))
+      {
+        //INSERINDO
+        \$id = \$this->db->insert_id();
+        
+        \$dados_log = array(
+          'id_registro' => \$id,
+          'tabela' => '$table',
+          'acao' => 1,
+          'sql' => str_replace(\"`\", \"\", \$this->db->last_query()),
+          'data_cadastro' => date('Y-m-d H:i:s', time()),
+          'id_usuario' => \$dados['id_usuario'],
+        );
+
+        \$this->auditoria->salvar(\$dados_log);
+
+        if (\$this->db->trans_status() === false) 
         {
-            //INSERINDO
-            \$id = \$this->db->insert_id();
-
-            \$dados_log = array(
-                'id_registro' => \$id,
-                'tabela' => '$table',
-                'acao' => 1,
-                'sql' => str_replace(\"`\", \"\", \$this->db->last_query()),
-                'data_cadastro' => date('Y-m-d H:i:s', time()),
-                'id_usuario' => \$dados['id_usuario'],
-            );
-
-            \$this->auditoria->salvar(\$dados_log);
-
-            if (\$this->db->trans_status() === false) {
-                \$this->db->trans_rollback();
-                return false;
-            } else {
-                \$this->db->trans_commit();
-                return \$id;
-            }
+          \$this->db->trans_rollback();
+          return false;
+        } 
+        else
+        {
+          \$this->db->trans_commit();
+          return \$id;
+            
         }
+      }
     }
     public function atualizar(\$dados, \$id)
     {
-        if (\$dados != null) {
-            \$this->db->trans_begin();
+      if (\$dados != null) 
+      {
+        \$this->db->trans_begin();
 
-            \$this->db->where('id', \$id);
-            if (\$this->db->update('$table', \$dados['$table'])) {
-                //Log
-                \$dados_log = [
-                    'id_registro'   => \$id,
-                    'tabela'        => '$table',
-                    'acao'          => 2,
-                    'sql'           => str_replace(\"`\", \"\", \$this->db->last_query()),
-                    'data_cadastro' => date('Y-m-d H:i:s', time()),
-                    'id_usuario'    => \$dados['id_usuario']
-                ];
-
-                \$this->auditoria->salvar(\$dados_log);
-            }
+        \$this->db->where('id', \$id);
+        if (\$this->db->update('$table', \$dados['$table'])) 
+        {
+          //Log
+          \$dados_log = [
+            'id_registro'   => \$id,
+            'tabela'        => '$table',
+            'acao'          => 2,
+            'sql'           => str_replace(\"`\", \"\", \$this->db->last_query()),
+            'data_cadastro' => date('Y-m-d H:i:s', time()),
+            'id_usuario'    => \$dados['id_usuario']
+          ];
+          \$this->auditoria->salvar(\$dados_log);
         }
-
-        if (\$this->db->trans_status() === false) {
-            \$this->db->trans_rollback();
-            return false;
-        } else {
-            \$this->db->trans_commit();
-            return \$id;
-        }
+      }
+      if (\$this->db->trans_status() === false) 
+      {
+        \$this->db->trans_rollback();
+        return false;
+      }
+      else 
+      {
+        \$this->db->trans_commit();
+        return \$id;
+      }
     }
 }
 ?>"
