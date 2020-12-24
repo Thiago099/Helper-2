@@ -229,7 +229,7 @@
           ?>
           <div class="error">Falha: Arquivo já existente.</div>
           <label>Saida</label>
-          <textarea name="name" rows="8" cols="80"><?php
+          <textarea name="name" rows="8" cols="80" spellcheck="false"><?php
           echo "Possíveis rotas:\n";
           echo "public/$controler/get\n";
           echo "public/$controler/salvar\n";
@@ -239,7 +239,7 @@
           ?>
           </textarea>
           <label>Possível verifica token</label>
-          <textarea name="name" rows="8" cols="80"><?php
+          <textarea name="name" rows="8" cols="80" spellcheck="false"><?php
           echo "'$controler' => array
 (
   'get' => 0,
@@ -495,7 +495,7 @@ class $model extends CI_Model
     fclose($f_model);
     ?>
     <label>Saida</label>
-    <textarea name="name" rows="8" cols="80"><?php
+    <textarea name="name" rows="8" cols="80" spellcheck="false"><?php
     echo "Rotas:\n";
     echo "public/$controler/get\n";
     echo "public/$controler/salvar\n";
@@ -505,7 +505,7 @@ class $model extends CI_Model
     ?>
     </textarea>
     <label>Verifica token</label>
-    <textarea name="name" rows="8" cols="80"><?php
+    <textarea name="name" rows="8" cols="80" spellcheck="false"><?php
     echo "'$controler' => array
 (
   'get' => 0,
