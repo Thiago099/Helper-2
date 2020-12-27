@@ -180,8 +180,23 @@
         <?php endforeach;?>
         </select>
       <?php endif; ?>
-      <label>Opções</label>
+
+
       <?php if(isset($_GET['table'])&& exists($_GET['database'],$_GET['table'])): ?>
+        <?php if(exists($_GET['database'],'privilegio')): ?>
+      <label>Privilégio necessário para salvar</label>
+      <select class="" name="privilegio">
+        <option value="0">Nehum</option>
+        <?php
+        $db=new sql($_GET['database']);
+        $result=$db->query('SELECT * FROM privilegio');
+         ?>
+         <?php foreach ($result as $a) : ?>
+         <option value="<?php echo $a['id']; ?>"  <?php if(isset($_GET['privilegio'])&&$_GET['privilegio']==$a['id'])echo 'selected';?>><?php echo $a['titulo']; ?></option>
+         <?php endforeach; ?>
+      </select>
+      <?php endif; ?>
+      <label>Opções</label>
       </div>
         <div class="button_container">
           <div class="button">
@@ -195,7 +210,7 @@
         </div>
       <div class="container">
       <?php else: ?>
-
+      <label>Opções</label>
       <input class="solo" type="submit" value="Selecionar">
       <?php
       endif;
@@ -276,7 +291,7 @@
               array_splice( $target, $i+$source_lenght, 0, "
             '$controler' => array(
                 'get' => 0,
-                'salvar' => 0,
+                'salvar' => $_GET[privilegio],
             ),");
               break;
             }
@@ -525,13 +540,15 @@ class $model extends CI_Model
     fclose($f_model);
     ?>
     <label>Saida</label>
-    <textarea name="name" rows="8" cols="80" spellcheck="false"><?php
+    <textarea name="name" rows="10" cols="80" spellcheck="false"><?php
     echo "Rotas:\n";
     echo "public/$controler/get\n";
-    echo "public/$controler/salvar\n";
+    echo "public/$controler/salvar (privilegio:$_GET[privilegio])\n";
     echo "\nArquivos gerados:\n";
     echo "$p_model\n";
     echo "$p_controler\n";
+    echo "\nArquivo editado:\n";
+    echo 'application/hooks/Verifica_token.php';
     ?>
     </textarea>
     <?php
