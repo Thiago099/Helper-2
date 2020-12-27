@@ -51,6 +51,24 @@
         WHERE TABLE_SCHEMA = '$database'
         AND  TABLE_NAME = '$table'"))==1;
       }
+      function fwrite_long($file,$content)
+      {
+        $pieces = str_split($content, 1024 * 4);
+        foreach ($pieces as $piece)
+        {
+          fwrite($file, $piece, strlen($piece));
+        }
+      }
+      function match($c,$target,$source)
+      {
+          $source_lenght=count($source);
+          $target_lenght=count($target);
+          for ($i=0; $i < $source_lenght; $i++) {
+            if($i+$c>=$target_lenght) return false;
+            if($source[$i]!=$target[$i+$c]) return false;
+          }
+          return true;
+      }
      ?>
     <style media="screen">
     *{
@@ -238,16 +256,34 @@
           echo "$p_controler\n";
           ?>
           </textarea>
-          <label>Possível verifica token</label>
-          <textarea name="name" rows="8" cols="80" spellcheck="false"><?php
-          echo "'$controler' => array
-(
-  'get' => 0,
-  'salvar' => 0,
-),";
-          ?></textarea>
           <?php
-        else:
+          else:
+          $path="application/hooks/Verifica_token.php";
+          $myfile = fopen($path, "r") or die("Unable to open file!");
+          $target = str_split(fread($myfile,filesize($path)));
+          fclose($myfile);
+
+
+          $source=str_split('$mapUrl = array(');
+
+          $source_lenght=count($source);
+          $target_lenght=count($target);
+          for ($i=0; $i < $target_lenght; $i++)
+          {
+            if(match($i,$target,$source))
+            {
+
+              array_splice( $target, $i+$source_lenght, 0, "
+            '$controler' => array(
+                'get' => 0,
+                'salvar' => 0,
+            ),");
+              break;
+            }
+          }
+          $myfile = fopen("application/hooks/Verifica_token.php", "w") or die("Unable to open file!");
+          fwrite_long($myfile,implode($target));
+          fclose($myfile);
 
         $controler_str=
 "<?php
@@ -263,7 +299,7 @@ class $controler extends CI_Controller
     {
       // Sobrecarga no costrutor
       parent::__construct();
-      
+
       // usado somente pra debugar
       //\$this->load->helper('chrome_helper');
 
@@ -277,7 +313,7 @@ class $controler extends CI_Controller
       \$retorno = array();
       \$retorno['status'] = 'erro';
 
-      if (\$query) 
+      if (\$query)
       {
         \$retorno['status'] = 'sucesso';
         \$retorno['lista'] = \$query;
@@ -422,7 +458,7 @@ class $model extends CI_Model
       {
         //INSERINDO
         \$id = \$this->db->insert_id();
-        
+
         \$dados_log = array(
           'id_registro' => \$id,
           'tabela' => '$table',
@@ -434,27 +470,27 @@ class $model extends CI_Model
 
         \$this->auditoria->salvar(\$dados_log);
 
-        if (\$this->db->trans_status() === false) 
+        if (\$this->db->trans_status() === false)
         {
           \$this->db->trans_rollback();
           return false;
-        } 
+        }
         else
         {
           \$this->db->trans_commit();
           return \$id;
-            
+
         }
       }
     }
     public function atualizar(\$dados, \$id)
     {
-      if (\$dados != null) 
+      if (\$dados != null)
       {
         \$this->db->trans_begin();
 
         \$this->db->where('id', \$id);
-        if (\$this->db->update('$table', \$dados['$table'])) 
+        if (\$this->db->update('$table', \$dados['$table']))
         {
           //Log
           \$dados_log = [
@@ -468,29 +504,19 @@ class $model extends CI_Model
           \$this->auditoria->salvar(\$dados_log);
         }
       }
-      if (\$this->db->trans_status() === false) 
+      if (\$this->db->trans_status() === false)
       {
         \$this->db->trans_rollback();
         return false;
       }
-      else 
+      else
       {
         \$this->db->trans_commit();
         return \$id;
       }
     }
 }
-?>"
-
-;
-   function fwrite_long($file,$content)
-   {
-     $pieces = str_split($content, 1024 * 4);
-     foreach ($pieces as $piece)
-     {
-       fwrite($file, $piece, strlen($piece));
-     }
-   }
+?>";
     $f_controler = fopen($p_controler,'w');
     fwrite_long($f_controler, $controler_str);
     fclose($f_controler);
@@ -508,14 +534,6 @@ class $model extends CI_Model
     echo "$p_controler\n";
     ?>
     </textarea>
-    <label>Verifica token</label>
-    <textarea name="name" rows="8" cols="80" spellcheck="false"><?php
-    echo "'$controler' => array
-(
-  'get' => 0,
-  'salvar' => 0,
-),";
-    ?></textarea>
     <?php
     endif;
     endif;
