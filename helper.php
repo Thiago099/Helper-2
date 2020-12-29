@@ -241,7 +241,7 @@
                             ADD COLUMN IF NOT EXISTS `updated_at` DATETIME NULL,
                             ADD COLUMN IF NOT EXISTS `excluido` TINYINT(1) NULL DEFAULT NULL;");
           $result=$db->run("ALTER TABLE `$database`.`$table`
-                              ADD COLUMN IF NOT EXISTS `id` INT NOT NULL AUTO_INCREMENT,
+                              ADD COLUMN IF NOT EXISTS `id` INT NOT NULL AUTO_INCREMENT FIRST,
                               ADD PRIMARY KEY (`id`);");
           $result=$db->run("ALTER TABLE `$database`.`$table`
                               ADD CONSTRAINT `FK_{$table}_created_by` FOREIGN KEY (`created_by`) REFERENCES `usuario` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;");
@@ -341,7 +341,7 @@ class $controler extends CI_Controller
         echo json_encode(\$retorno);
     }
     public function salvar()
-      {
+    {
         \$status_code = 200;
         \$response = [
           'status' => 'sucesso',
