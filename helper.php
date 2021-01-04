@@ -70,6 +70,16 @@
           $c+=$source_lenght;
           return true;
       }
+      function match_before($c,$target,$source)
+      {
+          $source_lenght=count($source);
+          $target_lenght=count($target);
+          for ($i=0; $i < $source_lenght; $i++) {
+            if($i+$c>=$target_lenght) return false;
+            if($source[$i]!=$target[$i+$c]) return false;
+          }
+          return true;
+      }
      ?>
     <style media="screen">
     *{
@@ -195,6 +205,7 @@
           <input type="submit" name="action" value="Código insert">
           <input type="submit" name="action" value="Código controlador">
           <input type="submit" name="action" value="Código select">
+          <input type="submit" name="action" value="Caminhos do controlador">
           </div>
         </div>
       <div class="container">
@@ -228,6 +239,96 @@
         }
         ?>
         </form>
+        <?php if(isset($_GET['action'])&&$_GET['action']=='Caminhos do controlador'): ?>
+        <label>Caminhos do controlador</label>
+        <textarea name="name" rows="40" cols="80" spellcheck="false"><?php
+        {
+          $path="application/hooks/Verifica_token.php";
+          $myfile = fopen($path, "r") or die("Unable to open file!");
+          $target = str_split(fread($myfile,filesize($path)));
+          fclose($myfile);
+
+
+          $source=str_split('$mapUrl = array(');
+          $end=str_split('),');
+          $arrow=str_split('=>');
+          $db=new sql($_GET['database']);
+          $source_lenght=count($source);
+          $target_lenght=count($target);
+          $i=0;
+          for (; $i < $target_lenght; $i++)
+          {
+            if(match($i,$target,$source))
+            {
+              break;
+            }
+          }
+          for (; $i < $target_lenght; $i++)
+          {
+            if($target[$i]=='\'')
+            {
+              $i++;
+              $start=$i;
+              while ($target[$i]!='\'') {
+                $i++;
+              }
+              $cur=implode(array_slice($target,$start,$i-$start));
+              if(strtolower($cur)==$_GET['table'])
+              {
+                echo "public/$cur/\n\n";
+                $i+=2;
+                for (; $i < $target_lenght; $i++)
+                {
+                  if($target[$i]=='\'')
+                  {
+                    $i++;
+                    $start=$i;
+                    while ($target[$i]!='\'')
+                    {
+                      $i++;
+                    }
+                    echo ident(strtolower(implode(array_slice($target,$start,$i-$start))),40);
+                    $i++;
+                    for (; $i < $target_lenght; $i++)
+                    {
+                      match($i,$target,$arrow);
+                      break;
+                    }
+                    $i+=3;
+                    $start=$i;
+                    while ($target[$i]!="\n")
+                    {
+                      $i++;
+                    }
+                    $i-=2;
+                    $priv=str_replace(' ', '',implode(array_slice($target,$start,$i-$start)));
+                    if($priv!='0')
+                    {
+                      echo "$priv";
+                      //echo $db->query("SELECT titulo FROM privilegio WHERE id = $priv")[0]['titulo'];
+                    }
+                    echo "\n";
+                  }
+                  else
+                  if(match($i,$target,$end))
+                  {
+                    break;
+                  }
+                }
+                break;
+              }
+              else
+              for (; $i < $target_lenght; $i++)
+              {
+                if(match($i,$target,$end))
+                break;
+              }
+            }
+          }
+        }
+
+        ?></textarea>
+      <?php endif; ?>
         <?php
         if(isset($_GET['action'])&&$_GET['action']=='Adicionar campos de controle')
         {
