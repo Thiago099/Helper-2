@@ -59,7 +59,7 @@
           fwrite($file, $piece, strlen($piece));
         }
       }
-      function match($c,$target,$source)
+      function match(&$c,$target,$source)
       {
           $source_lenght=count($source);
           $target_lenght=count($target);
@@ -67,6 +67,7 @@
             if($i+$c>=$target_lenght) return false;
             if($source[$i]!=$target[$i+$c]) return false;
           }
+          $c+=$source_lenght;
           return true;
       }
      ?>
@@ -289,7 +290,7 @@
             if(match($i,$target,$source))
             {
 
-              array_splice( $target, $i+$source_lenght, 0, "
+              array_splice( $target, $i, 0, "
             '$controler' => array(
                 'get' => 0,
                 'salvar' => $_GET[privilegio],
