@@ -252,10 +252,11 @@
           $source=str_split('$mapUrl = array(');
           $end=str_split('),');
           $arrow=str_split('=>');
-          $db=new sql($_GET['database']);
+          // $db=new sql($_GET['database']);
           $source_lenght=count($source);
           $target_lenght=count($target);
           $i=0;
+
           for (; $i < $target_lenght; $i++)
           {
             if(match($i,$target,$source))
@@ -276,6 +277,7 @@
               if(strtolower($cur)==$_GET['table'])
               {
                 echo "public/$cur/\n\n";
+                echo ident('Caminho',50).'Privilego'."\n\n";
                 $i+=2;
                 for (; $i < $target_lenght; $i++)
                 {
@@ -287,7 +289,7 @@
                     {
                       $i++;
                     }
-                    echo ident(strtolower(implode(array_slice($target,$start,$i-$start))),40);
+                    echo ident(strtolower(implode(array_slice($target,$start,$i-$start))),50);
                     $i++;
                     for (; $i < $target_lenght; $i++)
                     {
@@ -304,7 +306,7 @@
                     $priv=str_replace(' ', '',implode(array_slice($target,$start,$i-$start)));
                     if($priv!='0')
                     {
-                      echo ident($db->query("SELECT titulo FROM privilegio WHERE id = $priv")[0]['titulo'],40);
+                      // echo ident($db->query("SELECT titulo FROM privilegio WHERE id = $priv")[0]['titulo'],40);
                       echo $priv;
 
                     }
