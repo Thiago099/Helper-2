@@ -256,6 +256,7 @@
           $source_lenght=count($source);
           $target_lenght=count($target);
           $i=0;
+
           for (; $i < $target_lenght; $i++)
           {
             if(match($i,$target,$source))
@@ -304,7 +305,7 @@
                     $priv=str_replace(' ', '',implode(array_slice($target,$start,$i-$start)));
                     if($priv!='0')
                     {
-                      echo ident($db->query("SELECT titulo FROM privilegio WHERE id = $priv")[0]['titulo'],40);
+                      // echo ident($db->query("SELECT titulo FROM privilegio WHERE id = $priv")[0]['titulo'],40);
                       echo $priv;
 
                     }
