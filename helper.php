@@ -304,8 +304,8 @@
                     $priv=str_replace(' ', '',implode(array_slice($target,$start,$i-$start)));
                     if($priv!='0')
                     {
-                      echo "$priv";
-                      //echo $db->query("SELECT titulo FROM privilegio WHERE id = $priv")[0]['titulo'];
+                      echo ident($priv,40);
+                      echo $db->query("SELECT titulo FROM privilegio WHERE id = $priv")[0]['titulo'];
                     }
                     echo "\n";
                   }
