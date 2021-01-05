@@ -205,6 +205,7 @@
           <input type="submit" name="action" value="Código insert">
           <input type="submit" name="action" value="Código controlador">
           <input type="submit" name="action" value="Código select">
+          <!-- <input type="submit" name="action" value="Código JSON"> -->
           <input type="submit" name="action" value="Caminhos do controlador">
           </div>
         </div>
@@ -240,6 +241,8 @@
         ?>
         </form>
         <?php if(isset($_GET['action'])&&$_GET['action']=='Caminhos do controlador'): ?>
+        <?php if(!is_dir("application")):?><div class="error">Falha: Para encontrar os caminhos, esta aplicação deve estar na pasta raiz de um sistema em code igniter.</div>
+        <?php else:?>
         <label>Caminhos do controlador</label>
         <textarea name="name" rows="40" cols="80" spellcheck="false"><?php
         {
@@ -331,7 +334,7 @@
         }
 
         ?></textarea>
-      <?php endif; ?>
+      <?php endif;endif; ?>
         <?php
         if(isset($_GET['action'])&&$_GET['action']=='Adicionar campos de controle')
         {
@@ -395,7 +398,8 @@
             {
 
               array_splice( $target, $i, 0, "
-            '$controler' => array(
+            '$controler' => array
+            (
                 'get' => 0,
                 'salvar' => $_GET[privilegio],
             ),");
