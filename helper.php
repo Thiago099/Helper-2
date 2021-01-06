@@ -431,7 +431,7 @@ class $controler extends CI_Controller
       //Carrega os models necessários
       \$this->load->model('$model','$table');
     }
-    public function get()
+    public function get(\$id=null)
     {
       \$status_code = 200;
       \$response = [
@@ -439,7 +439,7 @@ class $controler extends CI_Controller
         'lista'  => [],
       ];
 
-      if(\$query = \$this->{$table}->get())
+      if(\$query = \$this->{$table}->get(\$id))
       {
         \$response['lista']=\$query;
       }
@@ -571,7 +571,7 @@ class $model extends CI_Model
         loop($database,$table,$join,$select);
         if($select==",\n")$select='';
         $select=substr($select, 0, -2)."\n";
-        $model_str.= "SELECT\n        $table.*{$select}        FROM $table\n$join        WHERE ($table.excluido != 1 OR {$table}.excluido is NULL)\n        \$id";
+        $model_str.= "SELECT\n        $table.*{$select}        FROM $table\n$join        WHERE ({$table}.excluido != 1 OR {$table}.excluido is NULL)\n        \$id";
 
         $model_str.="
       \");
