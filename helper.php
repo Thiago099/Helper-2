@@ -660,7 +660,7 @@ class $model extends CI_Model
     echo "$p_model\n";
     echo "$p_controler\n";
     echo "\nArquivo editado:\n";
-    echo 'application/hooks/Verifica_token.php (Caminhos adicionados no inicio do arquivo, necessário colocar em ordem alfabetica.)';
+    echo 'application/hooks/Verifica_token.php (Caminhos adicionados no inicio do vetor, necessário colocar em ordem alfabetica.)';
     ?>
     </textarea>
     <?php
