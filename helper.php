@@ -529,7 +529,7 @@ class $model extends CI_Model
     }
     public function get(\$id = null)
     {
-      if(\$id != null)\$id = \"WHERE $table.id = \$id\";
+      if(\$id != null)\$id = \"AND $table.id = \$id\";
       \$query = \$this->db->query(\"";
         function loop($database,$table,&$join,&$select)
         {
@@ -571,7 +571,7 @@ class $model extends CI_Model
         loop($database,$table,$join,$select);
         if($select==",\n")$select='';
         $select=substr($select, 0, -2)."\n";
-        $model_str.= "SELECT\n        $table.*{$select}        FROM $table\n$join        \$id";
+        $model_str.= "SELECT\n        $table.*{$select}        FROM $table\n$join        WHERE ($table.excluido != 1 OR {$table}.excluido is NULL)\n        \$id";
 
         $model_str.="
       \");
