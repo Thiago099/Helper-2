@@ -433,21 +433,23 @@ class $controler extends CI_Controller
     }
     public function get()
     {
-      \$query = \$this->{$table}->get();
+      \$status_code = 200;
+      \$response = [
+        'status' => 'sucesso',
+        'lista'  => [],
+      ];
 
-      \$retorno = array();
-      \$retorno['status'] = 'erro';
+      if(\$query = \$this->{$table}->get())
+      {
+        \$response['lista']=\$query;
+      }
 
-      if (\$query)
-      {
-        \$retorno['status'] = 'sucesso';
-        \$retorno['lista'] = \$query;
-      }
-      else
-      {
-        \$retorno['lista'] = [];
-      }
-        echo json_encode(\$retorno);
+      return \$this->output
+        ->set_content_type('application/json')
+        ->set_status_header(\$status_code)
+        ->set_output(
+          json_encode(\$response)
+        );
     }
     public function salvar()
     {
