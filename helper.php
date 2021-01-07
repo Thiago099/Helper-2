@@ -172,17 +172,17 @@
           $r=$db->query('SHOW DATABASES');
           foreach ($r as $i):
           $ii=$i['Database'];
-          $ignore=false;
+          $display=true;
           switch ($ii) {
             case 'information_schema':
             case 'performance_schema':
             case 'phpmyadmin':
             case 'mysql':
-            $ignore=true;
+            $display=false;
               break;
           }
 
-          if(!$ignore):
+          if($display):
           ?>
           <option value="<?php echo  $ii?>" <?php if(isset($_GET['database']) && $_GET['database'] == $ii) echo "selected"?>><?php echo $ii ?></option>
         <?php endif;endforeach; ?>
