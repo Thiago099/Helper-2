@@ -173,7 +173,8 @@
           foreach ($r as $i):
             $ii=$i['Database'];
             $display=true;
-            switch ($ii) {
+            switch ($ii) 
+            {
               case 'information_schema':
               case 'performance_schema':
               case 'phpmyadmin':
